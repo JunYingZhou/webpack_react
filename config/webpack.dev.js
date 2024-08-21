@@ -72,17 +72,15 @@ module.exports = {
             },
             // 处理js文件(ESlint,Babel),配合babel.config.js
             {
-                test: /\.jsx$/,
-                include: path.resolve(__dirname, '../src'), // ##########################只处理被包含的文件（提高编译速度）#################
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        cacheDirectory: true, // loader的选项配置时间
-                        cacheCompression: false // 取消缓存压缩，因为压缩会浪费时间
-                        // 可配置对线程
-                    }
-                }
-            },
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                    },
+                },
+            }
         ]
     },
 
@@ -90,7 +88,7 @@ module.exports = {
     plugins: [
         // ESLint 插件（配合.eslintrc.js）
         new EslintWebpackPlugin({
-            context: path.resolve(__dirname,'../src'),
+            context: path.resolve(__dirname, '../src'),
             exclude: 'node_modules', // #################################排除不需要的资源（提高编译的速度）##############################
             cache: true, // #############################################开启缓存（提高编译速度)########################################
             cacheLocation: path.resolve(__dirname, '../node_modules/.cache/.eslintcache') // ###############存放缓存的目录#############
@@ -116,5 +114,8 @@ module.exports = {
         port: 5000,
         open: true, // 是否自动
         hot: true // 是否开启HMR，热模块替换
-    }
+    },
+    resolve: {
+        extensions: [".jsx", ".js", ".json"], // 自动补全文件扩展名，让jsx可以使用
+    },
 }
