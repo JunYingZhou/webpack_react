@@ -158,6 +158,10 @@ module.exports = {
   },
   resolve: {
     extensions: [".jsx", ".js", ".json"],
+    // 进行别名控制
+    aliases: {
+      '@': path.resolve(__dirname,'./src');
+    }
   },
   devServer: {
     open: true,
